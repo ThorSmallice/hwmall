@@ -1,0 +1,17 @@
+html,body,p,ul,li,a,div,header,silde,session,main,footer {
+    padding: 0;
+    margin: 0;
+}
+body {
+    min-width: 1200px;
+}
+a {
+    text-decoration: none;
+    color: #000;
+}
+li {
+    list-style: none;
+}
+a,span,p,i,em {
+    font-size: 12px;
+}
