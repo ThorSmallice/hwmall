@@ -1,9 +1,11 @@
-html,body,p,ul,li,a,div,header,silde,session,main,footer {
+html,body,p,ul,li,a,span,div,header,silde,session,main,footer {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
 body {
     min-width: 1200px;
+    overflow-x: auto;
 }
 a {
     text-decoration: none;
@@ -12,6 +14,34 @@ a {
 li {
     list-style: none;
 }
+a,input,button{
+    outline: none;
+    border: none;
+}
 a,span,p,i,em {
+    user-select: none;
     font-size: 12px;
+}
+.container{
+    width: 1200px;
+    position: relative;
+    left: 50%;
+    margin-left: -600px;
+    // overflow: hidden;
+}
+.b_icon {
+    width: 15px;
+    height: 15px;
+    font-size: 8px;
+}
+.clearfix:after {
+    content:"";
+    display:block;
+    height:0;
+    clear:both;
+    visibility: hidden;
+}
+h1,h2,h3,h4,h5,h6{
+    margin: 0;
+    padding: 0;
 }
