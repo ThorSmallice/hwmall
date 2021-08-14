@@ -62,6 +62,7 @@ export default {
                 }
                 // 跳转到主页
                 this.$router.push("/");
+                console.log(1);
 
             },
             err => {

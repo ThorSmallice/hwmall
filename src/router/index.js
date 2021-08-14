@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router' 
-
+import {Message} from 'ant-design-vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -31,6 +31,23 @@ const routes = [
 
 const router = new VueRouter({
   routes
+})
+
+router.beforeEach((to, from, next) => {
+    const ignore = [ '/log', '/log/login', '/log/register'];
+    if (ignore.includes(to.path)) {
+        next();
+    }else {
+        const userInfo = window.sessionStorage.getItem('userInfo');
+        console.log(userInfo);
+        if (!userInfo) {
+            Message.warning("请先登录账号~")
+            console.log(222);
+            next('/log/login')
+        }else{
+            next()
+        }
+    }
 })
 
 export default router

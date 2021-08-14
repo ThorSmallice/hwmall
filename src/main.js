@@ -30,6 +30,7 @@ _axios.interceptors.request.use((req) => {
     // 用户信息存在 请求头添加token
     userInfo && (userInfo = JSON.parse(userInfo)) && (req.headers["x-token"] = userInfo.token);
 
+    // console.log(req);
     // console.log(userInfo);
     // if (!userInfo) {
     //     Message.warning('请先登录账号~');
@@ -44,9 +45,10 @@ _axios.interceptors.response.use(function (response) {
     if (response.status === 200) {
         return Promise.resolve(response.data)
     }
+    console.log(response);
     return Promise.resolve(response);
 }, function (err) {
-    //   console.log(err.response);
+      console.log(err.response);
     if (err.response.status === 409) {
         Message.warning('请先登录账号~');
         router.push('/log/login')
