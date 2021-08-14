@@ -38,6 +38,9 @@ export default {
             &:first-child{
                 width: 472px;
             }
+            &:hover {
+                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            }
         }
     }
 }

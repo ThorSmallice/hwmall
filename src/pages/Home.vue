@@ -10,9 +10,9 @@
                 <div class="swiper-wrap">
                      <div class="swiper-box">
                         <swiper :options="swiperOptions">
-                            <swiper-slide><a href="#"><img src="../assets/image/1.jpg" ></a></swiper-slide>
-                            <swiper-slide><a href="#"><img src="../assets/image/2.jpg" ></a></swiper-slide>
-                            <swiper-slide><a href="#"><img src="../assets/image/3.jpg" ></a></swiper-slide> 
+                            <template v-for="item in carouseList">
+                                <swiper-slide :key="item.id"><a href="#"><img :src="item.s_photos[0].path" ></a></swiper-slide>
+                            </template> 
                             <!-- 分页器 -->
                             <div class="swiper-pagination" slot="pagination"></div>
                         </swiper> 
@@ -27,7 +27,10 @@
 
                 <!-- 左侧菜单栏 -->
                 <div class="menu-wrap">
-                    <silderMenu></silderMenu>
+                    <silderMenu 
+                    :pro-list="proList" 
+                    >
+                    </silderMenu>
                 </div>
             </div> 
         </main>
@@ -37,6 +40,9 @@
                 <!-- 新品推荐 -->
                 <div class="new-pro-wrap">
                     <ul class="new-pro-list">
+                        <!-- <template v-for="newProList">
+
+                        </template> -->
                         <li><a href="#"></a></li>
                         <li><a href="#"></a></li>
                         <li><a href="#"></a></li>
@@ -74,9 +80,15 @@ import silderMenu from "../components/SilderMenu.vue";  // 侧边菜单栏
 import proBarOne from "../components/ProBarOne.vue";    // 商品列表组件1
 import proBarTwo from "../components/ProBarTwo.vue";    // 商品列表组件2
 import footerMenu from "../components/FooterMenu.vue";    // footer组件
+import {mapState} from "vuex";
 export default {
     data() {
         return {
+            proList:{   // 传给菜单栏组件的数据
+                proClass: [],   // 产品分类列表 
+            },
+            carouseList: [], // 轮播图列表
+            newProList:[],  // 新品推荐
             // swiper轮播图配置
             swiperOptions: {
                 // 分页器
@@ -102,6 +114,21 @@ export default {
                 speed: 1000  // 切换速度
             }
         }
+    },
+    created() {
+        // 获取轮播图
+        this.axios.get(`/api/carousel?site_id=1&project_id=${this.userInfo.project_id}`).then(res => { 
+            this.carouseList = res.result.rows
+        });
+        // 获取左侧菜单栏分类和子商品信息
+        this.axios.get(`/api/classify/classifyGoods?project_id=${this.userInfo.project_id}`).then(res => { 
+            this.proList.proClass = res.result.slice(0,12);   
+        }) 
+
+    },
+    
+    computed:{
+        ...mapState(["userInfo"])
     },
     components: {
         headerBar,
@@ -184,6 +211,7 @@ export default {
                 display: flex;
                 justify-content: space-between;
                 >li{
+                    cursor: pointer;
                     width: 291px;
                     height: 194px;
                     background-color: #87ceeb;
@@ -193,6 +221,9 @@ export default {
                             width: 100%;
                             height: 100%;
                         }
+                    }
+                    &:hover {
+                        box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
                     }
                 }
             }
