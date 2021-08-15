@@ -38,11 +38,9 @@ router.beforeEach((to, from, next) => {
     if (ignore.includes(to.path)) {
         next();
     }else {
-        const userInfo = window.sessionStorage.getItem('userInfo');
-        console.log(userInfo);
+        const userInfo = window.sessionStorage.getItem('userInfo'); 
         if (!userInfo) {
             Message.warning("请先登录账号~")
-            console.log(222);
             next('/log/login')
         }else{
             next()

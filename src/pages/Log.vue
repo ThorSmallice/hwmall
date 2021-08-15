@@ -4,7 +4,7 @@
                <div class="container">
                    <!-- 商城LOGO -->
                     <div class="logo">
-                        <img src="../assets/image/public/logo.jpg">
+                        <img src="../assets/image/public/logo.jpg" @click="$router.push('/')">
                     </div>
                </div>
            </header>
@@ -46,6 +46,7 @@ export default {
             height: 60px;
             text-align: center; 
             img {
+                cursor: pointer;
                 height: 100%;
             }
         }

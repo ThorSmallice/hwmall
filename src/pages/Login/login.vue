@@ -1,22 +1,31 @@
 <template>
   <div class="form">
     <h2>米麦账号登录</h2>
-    <input type="text" placeholder="手机/邮箱地址/账号名" 
-    class="inp inpUser" 
-    v-model.trim="logInfo.account"
-    />
+    <div v-if="!isLogin">
+        <input type="text" placeholder="手机/邮箱地址/账号名" 
+        class="inp inpUser" 
+        v-model.trim="logInfo.account"
+        />
 
-    <input type="password" 
-    placeholder="密码" 
-    class="inp inpPass" 
-    v-model.trim="logInfo.password"
-    @keyup.enter="toLogin"
-    />
+        <input type="password" 
+        placeholder="密码" 
+        class="inp inpPass" 
+        v-model.trim="logInfo.password"
+        @keyup.enter="toLogin"
+        />
 
-    <button class="btn-login"
-    :class="{'btn-login-active' : logbtnCanClick}"
-    @click="toLogin" 
-    >{{ isLogin }}</button>
+        <button class="btn-login"
+        :class="{'btn-login-active' : logbtnCanClick}"
+        @click="toLogin" 
+        >登录</button>
+    </div>
+    <div v-else>
+        <h2>{{$store.state.userInfo.username}}</h2>
+        <button class="btn-login btn-login-active"
+        
+        >退出登录</button>
+    </div>
+
     <div class="other">
       <router-link to="/log/register" class="a-register">注册</router-link>
     </div>
@@ -62,11 +71,8 @@ export default {
                 }
                 // 跳转到主页
                 this.$router.push("/");
-                console.log(1);
-
             },
             err => {
-                console.log(err);
                 this.$message.error(err.data.msg);
             })
         }
@@ -74,9 +80,9 @@ export default {
     computed: {
         isLogin() {
             if(this.$store.state.userInfo.token) {
-                return `已登录`
+                return  true
             } else {
-                return `登录`
+                return false
             } 
         }
     },

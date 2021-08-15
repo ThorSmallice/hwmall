@@ -37,32 +37,34 @@
     <section>
       <div class="container">
         <!-- 新品推荐 -->
-        <div class="new-pro-wrap">
+        <div class="new-pro-wrap floor">
           <ul class="new-pro-list">
             <template v-for="item in newProList">
-                <li :key="item.id">
-                    <a href="#">
-                        <img :src="item.imgsrc" alt="">
-                    </a>
-                </li>
-
-            </template>
-            <!-- <li><a href="#"></a></li>
-            <li><a href="#"></a></li>
-            <li><a href="#"></a></li> -->
+              <li :key="item.id">
+                <a href="#">
+                  <img :src="item.imgsrc" />
+                </a>
+              </li>
+            </template> 
           </ul>
         </div>
 
         <!-- 爆款推荐 -->
-        <div class="hot-style">
+        <div class="hot-style floor">
           <h2>爆款推荐</h2>
-          <proBarOne></proBarOne>
+          <proBarOne
+          :data-list="hotProList"
+          >
+          </proBarOne>
         </div>
 
         <!-- 手机 -->
-        <div class="tel-phone">
+        <div class="tel-phone floor">
           <h2>手机</h2>
-          <proBarTwo></proBarTwo>
+          <proBarTwo
+          :data-list="proPhoneList"
+          >
+          </proBarTwo>
         </div>
       </div>
     </section>
@@ -87,29 +89,31 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      proList: {
-        // 传给菜单栏组件的数据
+        proPhoneList: [], // 手机列表
+        hotProList:[],  // 爆款推荐列表
+        proList: {    // 传给菜单栏组件的数据
         proClass: [], // 产品分类列表
       },
       carouseList: [], // 轮播图列表
       newProList: [
+        // 新品推荐
         {
           id: 1,
-          imgsrc: "../assets/image/hotTuijian/1.jpg",
+          imgsrc: "/image/xinpintuijian/1.jpg",
         },
         {
           id: 2,
-          imgsrc: "../assets/image/hotTuijian/2.jpg",
+          imgsrc: "/image/xinpintuijian/2.jpg",
         },
         {
           id: 3,
-          imgsrc: "../assets/image/hotTuijian/3.jpg",
+          imgsrc: "/image/xinpintuijian/3.jpg",
         },
         {
           id: 4,
-          imgsrc: "../assets/image/hotTuijian/4.jpg",
+          imgsrc: "/image/xinpintuijian/4.jpg",
         },
-      ], // 新品推荐
+      ],
       // swiper轮播图配置
       swiperOptions: {
         // 分页器
@@ -142,17 +146,42 @@ export default {
       .get(`/api/carousel?site_id=1&project_id=${this.userInfo.project_id}`)
       .then((res) => {
         this.carouseList = res.result.rows;
-      });
+    });
     // 获取左侧菜单栏分类和子商品信息
     this.axios
       .get(`/api/classify/classifyGoods?project_id=${this.userInfo.project_id}`)
       .then((res) => {
         this.proList.proClass = res.result.slice(0, 12);
-      });
+    });
+    // 获取爆款推荐列表
+    this.axios
+        .get(`/api/goods`, {
+            params: {
+                project_id: this.userInfo.project_id,
+                classify_id: 133
+            }
+        })
+        .then(res => { 
+            this.hotProList =  res.result.rows.sort( (a, b) => {
+                return a.id - b.id
+        } );
+    });
+    // 获取手机楼层列表
+    this.axios
+        .get(`/api/goods`, {
+            params: {
+                project_id: this.userInfo.project_id,
+                classify_id: 29
+            }
+        })
+        .then(res => {
+            // console.log(res);
+            this.proPhoneList = res.result.rows.slice(0,8)
+        })
   },
 
   computed: {
-    ...mapState(["userInfo"]),
+    ...mapState(["userInfo"]), 
   },
   components: {
     headerBar,
@@ -228,6 +257,12 @@ export default {
     width: 100%;
     background-color: $color5;
     padding: 20px;
+    .floor {
+      margin-bottom: 30px;
+      h2 {
+          margin-bottom: 20px;
+      }
+    }
     // 新品推荐
     .new-pro-wrap {
       .new-pro-list {
@@ -238,9 +273,11 @@ export default {
           cursor: pointer;
           width: 291px;
           height: 194px;
-          background-color: #87ceeb;
+        //   background-color: #87ceeb;
           > a {
             display: block;
+            width: 100%;
+            height: 100%;
             img {
               width: 100%;
               height: 100%;

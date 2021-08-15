@@ -25,8 +25,9 @@
 
                 <!--   右边购物车列表 -->
                 <ul class="link-list-right">
-                     <li><a href="#">请登录</a></li>
-                     <li><a href="#">注册</a></li>
+                     <li v-if="$store.state.userInfo.username"><a href="javascript:;">{{$store.state.userInfo.username}}</a></li>
+                     <li v-else><a href="/#/log/login">请登录</a></li> 
+                     <li><a href="/#/log/register">注册</a></li>
                      <li><a href="#">我的订单</a></li>
                      <li>
                         <a href="javascript:;">
@@ -52,7 +53,7 @@
                 <div class="header-nav-wrap">
                     <!-- 商城LOGO -->
                     <div class="logo">
-                         <img src="../assets/image/public/logo.jpg" >
+                         <img src="../assets/image/public/logo.jpg"  @click="toLink">
                     </div>
 
                     <!-- 导航栏 -->
@@ -77,7 +78,13 @@
 <script>
 
 export default {
-    
+    methods: {
+        toLink() { 
+            if ( this.$route.path !== '/') {
+                this.$router.push('/')
+            }
+        }
+    }
 }
 </script>
 
