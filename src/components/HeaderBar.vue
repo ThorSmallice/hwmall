@@ -25,22 +25,44 @@
 
                 <!--   右边购物车列表 -->
                 <ul class="link-list-right">
-                     <li v-if="$store.state.userInfo.username"><a href="javascript:;">{{$store.state.userInfo.username}}</a></li>
-                     <li v-else><a href="/#/log/login">请登录</a></li> 
-                     <li><a href="/#/log/register">注册</a></li>
+                     <li v-if="userInfo"  class="log-out">
+                         <a href="javascript:;">{{userInfo.username}}</a>
+                          <div @click="toLogOut">
+                             退出登录
+                         </div>
+                    </li>
+
+                     <li v-else>
+                         <a href="/#/log/login" target="_blank">请登录</a> 
+                     </li> 
+                     <li><a href="/#/log/register"  target="_blank">注册</a></li>
                      <li><a href="#">我的订单</a></li>
                      <li>
-                        <a href="javascript:;">
+                        <a href="/#/car">
                             <i class="b_icon iconfont icon-gouwuche"></i>
                             购物车
-                            (0)
+                            ({{userInfo.buyCar.length}})
                         </a>
 
                          <ul class="ul-link-more">
-                                <div class="buycarno">
-                                    <i  class="b-icon iconfont icon-gouwuche"></i>
-                                    <p>您的购物车是空的，赶紧选购吧~</p>
-                                </div>  
+                                <div class="buycarno"  v-if="userInfo.buyCar.length == 0">
+                                    <li> 
+                                        <i  class="b-icon iconfont icon-gouwuche"></i>
+                                        <p>您的购物车是空的，赶紧选购吧~</p>
+                                    </li> 
+                                </div>
+
+                                <div class="buycarhas">
+                                    <template v-for="item in userInfo.buyCar">
+                                        <li class="car-item" :key="item.id"> 
+                                            <img :src="item.s_good.s_goods_photos[0].path">
+                                            <p>{{item.s_good.name}}</p>
+                                            <span>单价￥{{item.s_good.sale_price}}</span>
+                                            <span>数量{{item.num}}</span>
+                                            <span>金额￥{{item.num * item.s_good.sale_price}}</span>
+                                        </li>    
+                                    </template>
+                                </div>
                         </ul>
                     </li>
                 </ul>
@@ -76,14 +98,32 @@
 </template>
 
 <script>
-
+import {mapState} from 'vuex';
 export default {
     methods: {
+        // 登录
         toLink() { 
-            if ( this.$route.path !== '/') {
-                this.$router.push('/')
+            if ( this.$route.path !== '/index') {
+                this.$router.push('/index')
             }
+        },
+        // 注销
+        toLogOut() {
+            this.axios.post('/api/logout').then(res => {
+                // 更新vuex userInfo为null
+                this.$store.commit('updateUserInfo', null);
+                // 清除Storage里的userInfo
+                window.sessionStorage.removeItem('userInfo');
+                // 提示退出成功
+                this.$message.success(res.msg);
+                // 刷新页面
+                location.reload(); 
+            }) 
         }
+    
+    },
+    computed: {
+        ...mapState(['userInfo'])
     }
 }
 </script>
@@ -168,6 +208,7 @@ export default {
                 }
                 .ul-link-more {
                     padding: 50px 0;
+                    width: 470px;
                     box-shadow: rgb(0 0 0 / 10%) 0px 5px 10px;
                     .buycarno {
                         display: flex;
@@ -176,7 +217,7 @@ export default {
                         text-align: center;
                         flex-direction: column;
                         justify-content: center; 
-                        >.b-icon {
+                        .b-icon {
                             display: block;
                             font-size: 80px;
                             color: $color2;
@@ -186,6 +227,63 @@ export default {
                             font-size: 15px;
                             color: $color2;
                         }
+                    }
+                    .buycarhas{
+                        width: 470px; 
+                        padding: 0 10px;
+                        height: 200px;
+                        overflow-y: auto;
+                        overflow-x: hidden;
+                        .car-item { 
+                            display: flex;
+                            width: 450px;
+                            height: 60px;
+                            line-height: 60px;
+                            justify-content: space-evenly;
+                            margin-bottom: 20px;
+                            padding-bottom: 10px;
+                            border-bottom: 1px dashed #ccc;
+                            >p {
+                                width: 115px;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                            }
+                            img { 
+                                width: 50px;
+                                height: 50px;
+                            }
+                        }
+                    }
+                }
+            }
+            >.log-out {
+                position: relative;
+                >div {
+                    user-select: none;
+                    cursor: pointer;
+                    position: absolute; 
+                    z-index: 21;
+                    top: 36px;
+                    right: 0;
+                    display: none; 
+                    color: rgba(255,255,255,0.6);
+                    // padding: 8px;
+                    text-align: center;
+                    font-size: 12px;
+                    width: 55px;
+                    height: 100%; 
+                    box-shadow: rgb(0 0 0 / 10%) 0px 5px 10px;
+                    background-color: #000;
+                    &:hover{
+                        color: #fff;
+                    }
+
+                }
+                &:hover{
+                    // background-color: #fff;
+                    >div {
+                        display: block; 
                     }
                 }
             }
@@ -204,7 +302,7 @@ export default {
                     &:hover{
                         color: rgb(207, 10, 44); 
                     }
-                }
+                } 
             }
         }
         .icon_jiantou {

@@ -6,14 +6,14 @@
             <template v-for="item in getFirstData">
                 <li class="pro-item" :key="item.id">
                     <a href="#">
-                        <img :src="item.s_goods_photos[0].path">
+                        <img v-lazy="item.s_goods_photos[0].path">
                     </a>
                 </li>
             </template>
             <template v-for="item in getFilterList">
                 <li class="pro-item" :key="item.id">
                     <a href="#">
-                        <img :src="item.s_goods_photos[0].path">
+                        <img v-lazy="item.s_goods_photos[0].path">
                         <h6>{{item.name}}</h6>
                         <p>￥{{item.sale_price}}</p>
                     </a>
@@ -61,6 +61,7 @@ export default {
                     align-items: center;
                     width: 100%;
                     height: 100%;
+                    text-align: center;
                     h6{
                         width: 183px;
                         font-size: 14px;

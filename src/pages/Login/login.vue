@@ -20,9 +20,9 @@
         >登录</button>
     </div>
     <div v-else>
-        <h2>{{$store.state.userInfo.username}}</h2>
+        <h2>{{userInfo.username}}</h2>
         <button class="btn-login btn-login-active"
-        
+        @click="toLogOut"
         >退出登录</button>
     </div>
 
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import {mapState} from "vuex";
 export default {
     data: function() {
         return {
@@ -45,41 +46,69 @@ export default {
     },
     methods:{
         // 登录
-        toLogin() {
-            this.axios.post('/api/login',{
+        async toLogin() {
+            let loginRes = await this.axios.post('/api/login',{
                 phone: this.logInfo.account,    // 传入用户名
                 password: this.logInfo.password // 传入密码
-            })
-            .then(res => {
-                // console.log(res);
-                this.$message.success(res.msg);
-                const userInfo = {
-                    id:  res.result.id, //项目id
-                    username: res.result.name, // 用户昵称
-                    token: res.result.token,    // 用户token
-                    project_id: res.result.project_id, // 项目id
-                };
-               
-                // 存储用户token
-                window.sessionStorage.setItem("userInfo", JSON.stringify(userInfo));
-                // token值更新到vuex
-                this.$store.commit("updateUserInfo",userInfo);
-                // 重置输入框信息
-                this.logInfo = {
-                    account:"18664780445",     // 账户名
-                    password: "123456",   // 密码    
+            }).then(res => {
+                return res
+            }).catch(err => {
+                return err
+            }); 
+            
+            if (loginRes.status === 409) {  // 账号或者密码错误 提示用户 并且打断后续代码执行
+                return this.$message.error(loginRes.data.msg)
+            }
+
+            let buyCarRes = await this.axios.get('/api/shoppingCart',{
+                params :{
+                   "project_id" : loginRes.result.project_id
+                },
+                headers: {
+                    "x-token" : loginRes.result.token
                 }
-                // 跳转到主页
-                this.$router.push("/");
-            },
-            err => {
-                this.$message.error(err.data.msg);
             })
+           
+            const userInfo = {
+                id:  loginRes.result.id, //项目id
+                username: loginRes.result.name, // 用户昵称
+                token: loginRes.result.token,    // 用户token
+                project_id: loginRes.result.project_id, // 项目id
+                buyCar : buyCarRes.result   // 购物车信息
+            };
+            
+
+            // token值更新到vuex
+            this.$store.commit("updateUserInfo",userInfo);
+
+            console.log(loginRes);
+             this.$message.success(loginRes.msg);
+
+            // 重置输入框信息
+            this.logInfo = {
+                account:"18664780445",     // 账户名
+                password: "123456",   // 密码    
+            }
+            // 跳转到主页
+            this.$router.push("/");
+            
+        },
+        // 注销
+        toLogOut() {
+            this.axios.post('/api/logout').then(res => {
+                // 更新vuex userInfo为null
+                this.$store.commit('updateUserInfo', null);
+                // 清除Storage里的userInfo
+                window.sessionStorage.removeItem('userInfo');
+                // 提示退出成功
+                this.$message.success(res.msg); 
+            }) 
         }
     },
     computed: {
+        ...mapState(["userInfo"]),
         isLogin() {
-            if(this.$store.state.userInfo.token) {
+            if(this.userInfo) { 
                 return  true
             } else {
                 return false

@@ -10,7 +10,7 @@
                     <div class="silder-prolist-wrap">
                         <ul class="silder-item-prolist clearfix">
                             <template v-for="config in item.s_goods">
-                                  <li class="pro-item"  :key="config.key">
+                                  <li class="pro-item"  :key="config.id" @click="$router.push(`/product/${config.id}`)">
                                     <div class="pro-img"> 
                                          <img :src="config.s_goods_photos[0].path">
                                     </div>

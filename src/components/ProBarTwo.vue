@@ -5,7 +5,7 @@
             <template v-for="item in dataList">
                 <li class="pro-item" :key="item.id">
                     <a href="#">
-                        <img :src="item.s_goods_photos[0].path">
+                        <img v-lazy="item.s_goods_photos[0].path">
                         <h6>{{item.name}}</h6>
                         <span>{{item.desc}}</span>
                         <p>￥{{item.sale_price}}</p>
@@ -47,6 +47,7 @@ export default {
                 width: 100%;
                 padding: 30px 0 0 0;
                 height: 100%;
+                text-align: center;
                 img{
                     width: 180px;
                     height: 192px;

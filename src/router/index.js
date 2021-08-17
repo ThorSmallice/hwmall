@@ -7,8 +7,30 @@ const routes = [
   {
     path: '/',
     name: 'Home', 
-    component: () => import('../pages/Home.vue')
+    component: () => import('../pages/Home.vue'),
+    redirect: '/index',
+    children: [
+        // 主页 
+        {
+            path: 'index',
+            name: 'Index',
+            component: () => import('../pages/Home/Index.vue')
+        },
+        // 产品
+        {
+            path: 'product/:id',
+            name: 'Product',
+            component: () => import('../pages/Home/Product.vue')
+        },
+        // 购物车
+        {
+            path: 'car',
+            name: 'Car',
+            component: () => import('../pages/Home/Car.vue')
+        }
+    ]
   },
+  // 登录 注册
   {
     path: '/log',
     name: 'Log', 
@@ -26,7 +48,8 @@ const routes = [
             component: () => import('../pages/Login/Register.vue') 
         }
     ]
-  }
+  },
+  
 ]
 
 const router = new VueRouter({
@@ -45,7 +68,7 @@ router.beforeEach((to, from, next) => {
         }else{
             next()
         }
-    }
+    } 
 })
 
 export default router

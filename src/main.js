@@ -3,6 +3,14 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+// 图片懒加载
+import VueLazyload from "vue-lazyload";
+Vue.use(VueLazyload, {
+    preLoad: 1,
+    loading:'/image/loading-svg/loading-bars.svg',
+    attempt: 2,
+    listenEvents: [ 'scroll' ]
+})
 // axios
 import _axios from "./utils/_axios"
 Vue.prototype.axios = _axios;

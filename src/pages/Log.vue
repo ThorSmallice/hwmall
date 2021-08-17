@@ -11,7 +11,7 @@
 
            <main>
                 <transition 
-                enter-active-class="animate__animated animate__fadeInLeft" 
+                enter-active-class="animate__animated animate__fadeInLeft"  
                 >
                     <router-view></router-view> 
                 </transition>
@@ -53,8 +53,9 @@ export default {
         margin-bottom: 10px;
     }
     main {
+        
         background-color: $color5;
-        padding: 100px 0;
+        padding: 100px 0; 
     }
 }
 </style>
