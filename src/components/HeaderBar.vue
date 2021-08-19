@@ -6,7 +6,7 @@
             <div class="container clearfix">
                 <!-- 左边列表 -->
                 <ul class="link-list-left">
-                    <li><a href="/#/index">首页</a></li>
+                    <li><router-link to="/index">首页</router-link></li>
                     <li><a href="#">花粉俱乐部</a></li>
                     <li><a href="#">米粉俱乐部</a></li>
                     <li>
@@ -33,16 +33,16 @@
                     </li>
 
                      <li v-else>
-                         <a href="/#/log/login" >请登录</a> 
+                         <router-link to="/log/login" >请登录</router-link> 
                      </li> 
-                     <li><a href="/#/log/register">注册</a></li>
-                     <li><a href="/#/order">我的订单</a></li>
+                     <li><router-link to="/log/register">注册</router-link></li>
+                     <li><router-link to="/order">我的订单</router-link></li>
                      <li>
-                        <a href="/#/car">
+                        <router-link to="/car">
                             <i class="b_icon iconfont icon-gouwuche"></i>
                             购物车
                             ({{userInfo.buyCar.length}})
-                        </a>
+                        </router-link>
 
                          <ul class="ul-link-more">
                                 <div class="buycarno"  v-if="userInfo.buyCar.length == 0">
