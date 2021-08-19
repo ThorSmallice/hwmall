@@ -8,7 +8,7 @@ const routes = [
     path: '/',
     name: 'Home', 
     component: () => import('../pages/Home.vue'),
-    redirect: '/index',
+    redirect: '/index', 
     children: [
         // 主页 
         {
@@ -61,7 +61,12 @@ const routes = [
         }
     ]
   },
-  
+  // 404 直接跳登录页
+    {
+        path: "*",
+        name:"NotFound",
+        redirect:"/index"
+    }
 ]
 
 const router = new VueRouter({
