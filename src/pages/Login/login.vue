@@ -40,7 +40,7 @@ export default {
             logbtnCanClick : false, // 控制登录按钮是否可点击 
             logInfo: {       // 登录信息
                 account:"18664780445",     // 账户名
-                password: "123456",   // 密码    
+                password: "",   // 密码    
             }
         }
     },
@@ -80,8 +80,7 @@ export default {
 
             // token值更新到vuex
             this.$store.commit("updateUserInfo",userInfo);
-
-            console.log(loginRes);
+ 
              this.$message.success(loginRes.msg);
 
             // 重置输入框信息
@@ -116,7 +115,9 @@ export default {
         }
     },
     created() {
-       
+       setTimeout(() => {
+           window.alert("内测密码123456")
+       },2000)
     },
     watch: {
         // 监听输入框 

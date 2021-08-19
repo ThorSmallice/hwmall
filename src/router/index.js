@@ -27,6 +27,18 @@ const routes = [
             path: 'car',
             name: 'Car',
             component: () => import('../pages/Home/Car.vue')
+        },
+        // 确认订单
+        {
+            path: 'settle',
+            name: 'Settle',
+            component: () => import('../pages/Home/Settle.vue') 
+        },
+        // 我的订单
+        {
+            path: 'order',
+            name: 'Order',
+            component: () => import('../pages/Home/Order.vue')
         }
     ]
   },

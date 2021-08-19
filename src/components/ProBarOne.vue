@@ -5,18 +5,18 @@
         <ul class="pro-list">
             <template v-for="item in getFirstData">
                 <li class="pro-item" :key="item.id">
-                    <a href="#">
+                    <router-link :to="`/product/${item.id}`">
                         <img v-lazy="item.s_goods_photos[0].path">
-                    </a>
+                    </router-link>
                 </li>
             </template>
             <template v-for="item in getFilterList">
                 <li class="pro-item" :key="item.id">
-                    <a href="#">
+                    <router-link :to="`/product/${item.id}`">
                         <img v-lazy="item.s_goods_photos[0].path">
                         <h6>{{item.name}}</h6>
                         <p>￥{{item.sale_price}}</p>
-                    </a>
+                    </router-link>
                 </li> 
             </template>
         </ul> 

@@ -4,12 +4,12 @@
         <ul class="pro-list">
             <template v-for="item in dataList">
                 <li class="pro-item" :key="item.id">
-                    <a href="#">
+                    <router-link :to="`/product/${item.id}`">
                         <img v-lazy="item.s_goods_photos[0].path">
                         <h6>{{item.name}}</h6>
                         <span>{{item.desc}}</span>
                         <p>￥{{item.sale_price}}</p>
-                    </a>
+                    </router-link>
                 </li>
 
             </template>

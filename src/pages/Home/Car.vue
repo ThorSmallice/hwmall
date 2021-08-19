@@ -69,16 +69,16 @@ export default {
     },
     methods: {
         // 获取购物车列表
-        getCarList() {
-            // 获取购物车列表 更新到vuex
-            this.axios.get('/api/shoppingCart', {
-                params :{
-                    "project_id" : this.userInfo.project_id
-                }
-            }).then(res => { 
-                this.$store.commit("updataCar",res.result)
-            })
-        },
+        // getCarList() {
+        //     // 获取购物车列表 更新到vuex
+        //     this.axios.get('/api/shoppingCart', {
+        //         params :{
+        //             "project_id" : this.userInfo.project_id
+        //         }
+        //     }).then(res => { 
+        //         this.$store.commit("updataCar",res.result)
+        //     })
+        // },
         // 更改单个商品选中状态
         changCheckItem(val) {
             val.isCheck = !val.isCheck
@@ -103,8 +103,9 @@ export default {
             this.allCheck = !this.allCheck
             if (this.allCheck) {
                 // 如果处于全选状态 
+                this.checkArr = []; // 先清空已选中的商品 然后再去添加 防止重复添加
                 this.getBuyList.forEach(item => {
-                    item.isCheck = true;    // 全部商品选中状态改为true
+                    item.isCheck = true;    // 全部商品选中状态改为true 
                     this.checkArr.push(item); // 全部商品添加进选中列表
                 })
             } else {
@@ -126,13 +127,13 @@ export default {
             await this.axios.put(`/api/shoppingCart/${item.id}`,{
                 num: e.target.value
             }).then(res => { 
-                console.log(1);
+                 
                 if (res.msg === "成功操作") {
                      item.num = res.result.num
                 }
             })
             // 更新购物车状态
-            this.getCarList()
+            this.$store.commit("updataCarItemNum",item)
 
         },
         // 删除单个商品
@@ -142,7 +143,8 @@ export default {
            if (res.msg === "删除成功") {
                this.$message.success(res.msg);
                 // 更新购物车状态
-                this.getCarList()
+                this.$store.dispatch("getCarList", this.userInfo.project_id)
+                // this.getCarList()
            }
         },
         // 删除选中商品
@@ -171,7 +173,7 @@ export default {
                     // 清空选中列表
                       this.checkArr = [];
                     // 更新购物车状态
-                    this.getCarList()
+                      this.$store.dispatch("getCarList", this.userInfo.project_id)
                 }  
             },err => {
                 this.$message.error(err.msg)
@@ -179,7 +181,7 @@ export default {
         },
         // 结算
         toCalc() {
-            console.log(111);
+            this.$router.push("/settle")
         }
     },
     computed:{
@@ -212,6 +214,13 @@ export default {
                 return true
             }
         }
+    },
+    watch: {
+        // 选中的商品列表如果有变动 将更新到vuex中供确认订单页使用
+        checkArr : function () {
+            window.sessionStorage.setItem("checkArr",  JSON.stringify(this.checkArr) )
+            // this.$store.commit("updataCheckArr", this.checkArr)
+        }
     }
 }
 </script>
@@ -221,6 +230,13 @@ export default {
 #Car {
   padding: 20px 0;
   background-color: #f5f5f5;
+  header {
+      h2 {
+          font-size: 18px;
+          line-height: 30px;
+          font-weight: 600;
+      }
+  }
   main {
     width: 100%;
     .table {

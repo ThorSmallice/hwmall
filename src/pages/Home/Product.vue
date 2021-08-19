@@ -1,4 +1,5 @@
 <template>
+<!-- 产品详情页 -->
     <div id="product">
         <div class="container">
             <!-- 商品主图和规格 -->
@@ -35,7 +36,7 @@
                        <div class="m_tr">
                             <label></label>
                             <a href="javascript:;" class="join-car" @click="joinCar($route.params.id)">加入购物车</a> 
-                            <a href="javascript:;" class="join-car">立即购买</a> 
+                            <!-- <a href="javascript:;" class="join-car">立即购买</a>  -->
                        </div>
                        
                    </div>
@@ -73,7 +74,7 @@ export default {
                 if(res.msg === '加入购物车') { 
                     this.$message.success("成功加入购物车~")  
                 }else {
-                    this.$message.error(res.msg)
+                    this.$message.success(res.msg)
                 }
             }) 
             // 重新获取购物车列表 更新到vuex
@@ -114,7 +115,7 @@ export default {
         // background-color: pink;
         .pro-show{
             width: 450px;
-            background-color: #87ceeb;
+            // background-color: #87ceeb;
         }
         // 商品信息
         .pro-speci {

@@ -1,4 +1,5 @@
 <template>
+<!-- 主页 -->
     <div id="Index">
           <main>
       <div class="container">
@@ -6,11 +7,16 @@
         <div class="swiper-wrap">
           <div class="swiper-box">
             <swiper :options="swiperOptions">
+
               <template v-for="item in carouseList">
                 <swiper-slide :key="item.id"
-                  ><a href="#"><img :src="item.s_photos[0].path" /></a
+                  >
+                  <router-link to="/">
+                  <img :src="item.s_photos[0].path" />
+                  </router-link>
                 ></swiper-slide>
               </template>
+
               <!-- 分页器 -->
               <div class="swiper-pagination" slot="pagination"></div>
             </swiper>
@@ -37,9 +43,9 @@
           <ul class="new-pro-list">
             <template v-for="item in newProList">
               <li :key="item.id">
-                <a href="#">
+                <router-link to="/">
                   <img v-lazy="item.imgsrc" />
-                </a>
+                </router-link>
               </li>
             </template> 
           </ul>
@@ -197,6 +203,9 @@ data() {
           margin-left: -951.5px;
           max-width: 1903px;
           height: 550px;
+          .swiper-pagination {
+              bottom: 40px;
+          }
         }
         .swiper-container {
           --swiper-pagination-color: #fff;

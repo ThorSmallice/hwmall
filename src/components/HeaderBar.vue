@@ -6,7 +6,7 @@
             <div class="container clearfix">
                 <!-- 左边列表 -->
                 <ul class="link-list-left">
-                    <li><a href="#">首页</a></li>
+                    <li><a href="/#/index">首页</a></li>
                     <li><a href="#">花粉俱乐部</a></li>
                     <li><a href="#">米粉俱乐部</a></li>
                     <li>
@@ -33,10 +33,10 @@
                     </li>
 
                      <li v-else>
-                         <a href="/#/log/login" target="_blank">请登录</a> 
+                         <a href="/#/log/login" >请登录</a> 
                      </li> 
-                     <li><a href="/#/log/register"  target="_blank">注册</a></li>
-                     <li><a href="#">我的订单</a></li>
+                     <li><a href="/#/log/register">注册</a></li>
+                     <li><a href="/#/order">我的订单</a></li>
                      <li>
                         <a href="/#/car">
                             <i class="b_icon iconfont icon-gouwuche"></i>
