@@ -94,19 +94,19 @@ data() {
         // 新品推荐
         {
           id: 1,
-          imgsrc: "/image/xinpintuijian/1.jpg",
+          imgsrc: require('../../assets/image/xinpintuijian/1.jpg'),
         },
         {
           id: 2,
-          imgsrc: "/image/xinpintuijian/2.jpg",
+          imgsrc:require('../../assets/image/xinpintuijian/2.jpg'),
         },
         {
           id: 3,
-          imgsrc: "/image/xinpintuijian/3.jpg",
+          imgsrc: require('../../assets/image/xinpintuijian/3.jpg'),
         },
         {
           id: 4,
-          imgsrc: "/image/xinpintuijian/4.jpg",
+          imgsrc:require('../../assets/image/xinpintuijian/4.jpg'),
         },
       ],
       // swiper轮播图配置

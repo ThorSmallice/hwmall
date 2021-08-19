@@ -7,7 +7,7 @@ import store from './store'
 import VueLazyload from "vue-lazyload";
 Vue.use(VueLazyload, {
     preLoad: 1,
-    loading:'/image/loading-svg/loading-bars.svg',
+    loading: require('./assets/image/loading-svg/loading-bars.svg'),
     attempt: 2,
     listenEvents: [ 'scroll' ]
 })
