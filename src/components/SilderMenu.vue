@@ -3,7 +3,7 @@
         <ul class="ul-silder">
             <template v-for="item in proList.proClass">
                  <li :key="item.key">
-                    <a href="#">
+                    <a href="javascript:;">
                         {{item.name}}
                     </a>
                     <i class="b-icon iconfont icon-youjiantou"></i>
@@ -12,7 +12,7 @@
                             <template v-for="config in item.s_goods">
                                   <li class="pro-item"  :key="config.id" @click="$router.push(`/product/${config.id}`)">
                                     <div class="pro-img"> 
-                                         <img :src="config.s_goods_photos[0].path">
+                                         <img v-lazy="config.s_goods_photos[0].path">
                                     </div>
                                     <div class="pro-text"> 
                                          <p>{{config.name}}</p>
