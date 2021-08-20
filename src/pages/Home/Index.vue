@@ -137,11 +137,16 @@ data() {
   },
   created() {
     // 获取轮播图
-    this.axios
-      .get(`/api/carousel?site_id=1&project_id=${this.userInfo.project_id}`)
-      .then((res) => {
-        this.carouseList = res.result.rows;
-    });
+    const carouPic = window.sessionStorage.getItem("carouseList");
+    if (carouPic) {
+        this.carouseList = JSON.parse(carouPic)
+    } else {
+         this.axios
+        .get(`/api/carousel?site_id=1&project_id=${this.userInfo.project_id}`)
+        .then((res) => {
+            this.carouseList = res.result.rows;
+        });
+    }
     // 获取左侧菜单栏分类和子商品信息
     this.axios
       .get(`/api/classify/classifyGoods?project_id=${this.userInfo.project_id}`)
@@ -177,6 +182,11 @@ data() {
 
   computed: {
     ...mapState(["userInfo"]), 
+  },
+  watch: {
+      "carouseList" :function () {
+            window.sessionStorage.setItem("carouseList",JSON.stringify(this.carouseList))
+      }
   },
   components:{
         Swiper,
