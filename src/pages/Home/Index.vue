@@ -12,7 +12,7 @@
                 <swiper-slide :key="item.id"
                   >
                   <router-link to="/">
-                  <img :src="item.s_photos[0].path" />
+                  <img :src="item.s_photos[0].path" alt/>
                   </router-link>
                 ></swiper-slide>
               </template>

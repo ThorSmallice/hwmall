@@ -46,10 +46,18 @@ _axios.interceptors.response.use(function (response) {
     if (response.status === 200) {
         return Promise.resolve(response.data)
     }
-    console.log(response);
+    // console.log(response);
     // return Promise.resolve(response);
 }, function (err) {
-    console.log(err.response);
+    // console.log(err.response);
+    if(err.response.status === 401) {
+        Message.warning("登录状态失效或未登录~,2秒后跳转登录页面~");
+        store.commit("updateUserInfo",null)
+        // window.sessionStorage.clear();
+        setTimeout(() => {
+            router.push("/log/login");
+        },2000)
+    }
     return Promise.reject(err.response);
 });
 

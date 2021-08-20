@@ -139,7 +139,7 @@ export default {
         // 删除单个商品
         async delItem(id) {
            let res = await this.axios.delete(`/api/shoppingCart/${id}`)
-           console.log(res);
+        //    console.log(res);
            if (res.msg === "删除成功") {
                this.$message.success(res.msg);
                 // 更新购物车状态
