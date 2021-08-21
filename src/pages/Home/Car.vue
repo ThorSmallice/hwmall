@@ -142,8 +142,15 @@ export default {
         //    console.log(res);
            if (res.msg === "删除成功") {
                this.$message.success(res.msg);
+                // // 如果是选中的 在选中列表中清除它
+                // let ress = this.checkArr.findIndex(item => { 
+                //     return item.id == id
+                // })
+                // console.log(ress);
+                // this.checkArr.splice(ress,1);
                 // 更新购物车状态
-                this.$store.dispatch("getCarList", this.userInfo.project_id)
+                await this.$store.dispatch("getCarList", this.userInfo.project_id)
+                this.checkArr =[];
                 // this.getCarList()
            }
         },
@@ -220,6 +227,16 @@ export default {
         checkArr : function () {
             window.sessionStorage.setItem("checkArr",  JSON.stringify(this.checkArr) )
             // this.$store.commit("updataCheckArr", this.checkArr)
+        },
+        // 监控购物车列表 
+        getBuyList : {
+            handler : function () {
+                let checkRes = this.getBuyList.every(item => {
+                    return item.isCheck
+                })
+                this.allCheck = checkRes
+            },
+            deep: true
         }
     }
 }
