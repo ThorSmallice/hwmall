@@ -41,18 +41,18 @@
                         <router-link to="/car">
                             <i class="b_icon iconfont icon-gouwuche"></i>
                             购物车
-                            ({{userInfo.buyCar.length}})
+                            ({{userInfo? userInfo.buyCar.length : "0"}})
                         </router-link>
 
                          <ul class="ul-link-more">
-                                <div class="buycarno"  v-if="userInfo.buyCar.length == 0">
+                                <div class="buycarno"  v-if="!userInfo || userInfo.buyCar.length == 0">
                                     <li> 
                                         <i  class="b-icon iconfont icon-gouwuche"></i>
                                         <p>您的购物车是空的，赶紧选购吧~</p>
                                     </li> 
                                 </div>
 
-                                <div class="buycarhas">
+                                <div class="buycarhas" v-else>
                                     <template v-for="item in userInfo.buyCar">
                                         <li class="car-item" :key="item.id"> 
                                             <img :src="item.s_good.s_goods_photos[0].path">

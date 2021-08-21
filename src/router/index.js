@@ -74,8 +74,12 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    const ignore = [ '/log', '/log/login', '/log/register'];
-    if (ignore.includes(to.path)) {
+    const ignore = [ '/index', '/log', '/log/login', '/log/register'];
+    // console.log(to.path);
+    // console.log(typeof to.path);
+    if (to.path.startsWith("/product")) {
+        next() 
+    } else if (ignore.includes(to.path)) {
         next();
     }else {
         const userInfo = window.sessionStorage.getItem('userInfo'); 

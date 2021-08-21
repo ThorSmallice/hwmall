@@ -142,14 +142,14 @@ data() {
         this.carouseList = JSON.parse(carouPic)
     } else {
          this.axios
-        .get(`/api/carousel?site_id=1&project_id=${this.userInfo.project_id}`)
+        .get(`/api/carousel?site_id=1&project_id=${28}`)
         .then((res) => {
             this.carouseList = res.result.rows;
         });
     }
     // 获取左侧菜单栏分类和子商品信息
     this.axios
-      .get(`/api/classify/classifyGoods?project_id=${this.userInfo.project_id}`)
+      .get(`/api/classify/classifyGoods?project_id=${28}`)
       .then((res) => {
         this.proList.proClass = res.result.slice(0, 12);
     });
@@ -157,7 +157,7 @@ data() {
     this.axios
         .get(`/api/goods`, {
             params: {
-                project_id: this.userInfo.project_id,
+                project_id: 28,
                 classify_id: 133
             }
         })
@@ -170,7 +170,7 @@ data() {
     this.axios
         .get(`/api/goods`, {
             params: {
-                project_id: this.userInfo.project_id,
+                project_id: 28,
                 classify_id: 29
             }
         })

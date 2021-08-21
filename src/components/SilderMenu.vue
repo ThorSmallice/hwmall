@@ -12,7 +12,7 @@
                             <template v-for="config in item.s_goods">
                                   <li class="pro-item"  :key="config.id" @click="$router.push(`/product/${config.id}`)">
                                     <div class="pro-img"> 
-                                         <img v-lazy="config.s_goods_photos[0].path">
+                                         <img :src="config.s_goods_photos[0].path">
                                     </div>
                                     <div class="pro-text"> 
                                          <p>{{config.name}}</p>
